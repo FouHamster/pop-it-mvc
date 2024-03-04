@@ -1,0 +1,22 @@
+{
+    "name": "gr423_koaal/pop-it-mvc",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "FouHamster",
+            "email": "alina63111@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4 | ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "core/Src/",
+            "": "app/"
+        }
+    }
+}
+
