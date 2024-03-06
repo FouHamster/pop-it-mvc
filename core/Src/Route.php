@@ -9,6 +9,11 @@ class Route
     private static array $routes = [];
     private static string $prefix = '';
 
+    public function __construct(string $prefix = '')
+    {
+        self::setPrefix($prefix);
+    }
+
     public static function setPrefix($value)
     {
         self::$prefix = $value;
@@ -31,10 +36,7 @@ class Route
         return self::$prefix . $url;
     }
 
-    public function __construct(string $prefix = '')
-    {
-        self::setPrefix($prefix);
-    }
+
 
     public function start(): void
     {
