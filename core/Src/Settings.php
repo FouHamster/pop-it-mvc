@@ -36,10 +36,4 @@ class Settings
         return $this->db ?? [];
     }
 
-    public function getDbSetting(): array
-    {
-        return $this->db ?? [];
-    }
-
-
 }
