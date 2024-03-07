@@ -17,9 +17,14 @@ class Site
     }
 
 
-    public function hello(): string
+    public function home(): string
     {
-        return new View('site.hello', ['message' => 'hello working']);
+        if (Auth::user()->roleID == 1){
+            return new View('site.addEmployee');
+        }
+        else {
+            return new View('site.staffAdd');
+        }
     }
 
     public function signup(Request $request): string
@@ -38,7 +43,7 @@ class Site
         }
         //Если удалось аутентифицировать пользователя, то редирект
         if (Auth::attempt($request->all())) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/home');
         }
         //Если аутентификация не удалась, то сообщение об ошибке
         return new View('site.login', ['message' => 'Неправильные логин или пароль']);
@@ -47,7 +52,7 @@ class Site
     public function logout(): void
     {
         Auth::logout();
-        app()->route->redirect('/hello');
+        app()->route->redirect('/home');
     }
 
 }

@@ -4,6 +4,7 @@ namespace Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Src\Auth\IdentityInterface;
 
 class User extends Model implements IdentityInterface
@@ -12,10 +13,11 @@ class User extends Model implements IdentityInterface
 
     public $timestamps = false;
     protected $fillable = [
-        'name',
         'login',
         'password'
     ];
+
+    protected $primaryKey = 'userID';
 
     protected static function booted()
     {
@@ -27,13 +29,13 @@ class User extends Model implements IdentityInterface
     //Выборка пользователя по первичному ключу
     public function findIdentity(int $id)
     {
-        return self::where('id', $id)->first();
+        return self::where('userID', $id)->first();
     }
 
     //Возврат первичного ключа
     public function getId(): int
     {
-        return $this->id;
+        return $this->userID;
     }
 
     //Возврат аутентифицированного пользователя
@@ -41,5 +43,9 @@ class User extends Model implements IdentityInterface
     {
         return self::where(['login' => $credentials['login'],
             'password' => md5($credentials['password'])])->first();
+    }
+
+    public function role(): BelongsTo {
+        return $this->belongsTo(Role::class, 'roleID');
     }
 }
