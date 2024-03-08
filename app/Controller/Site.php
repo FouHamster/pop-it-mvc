@@ -2,11 +2,13 @@
 
 namespace Controller;
 
+use Model\Staff;
 use Model\User;
 use Src\Request;
 use Model\Post;
 use Src\View;
 use Src\Auth\Auth;
+use function React\Promise\all;
 
 class Site
 {
@@ -25,6 +27,22 @@ class Site
         else {
             return new View('site.staffAdd');
         }
+    }
+
+    public function choose(): string {
+        return new View('site.addRoleEmployee');
+    }
+
+    public function staff(): string {
+        return new View('site.staffAdd');
+    }
+
+    public function division(): string {
+        return new View('site.humanResources');
+    }
+
+    public function employee(): string {
+        return new View('site.listEmployee');
     }
 
     public function signup(Request $request): string
