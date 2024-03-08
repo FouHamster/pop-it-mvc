@@ -22,7 +22,7 @@ class Auth
     public static function login(IdentityInterface $user): void
     {
         self::$user = $user;
-        Session::set('userID', self::$user->getId());
+        Session::set('id', self::$user->getId());
     }
 
     //Аутентификация пользователя и вход по учетным данным
@@ -38,7 +38,7 @@ class Auth
     //Возврат текущего аутентифицированного пользователя
     public static function user()
     {
-        $id = Session::get('userID') ?? 0;
+        $id = Session::get('id') ?? 0;
         return self::$user->findIdentity($id);
     }
 
@@ -51,11 +51,19 @@ class Auth
         return false;
     }
 
+
     //Выход текущего пользователя
     public static function logout(): bool
     {
-        Session::clear('userID');
+        Session::clear('id');
         return true;
     }
+    public static function generateCSRF(): string
+    {
+        $token = md5(time());
+        Session::set('csrf_token', $token);
+        return $token;
+    }
+
 
 }

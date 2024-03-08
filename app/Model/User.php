@@ -4,50 +4,52 @@ namespace Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Src\Auth\IdentityInterface;
 
 class User extends Model implements IdentityInterface
 {
-    use HasFactory;
+   use HasFactory;
 
-    public $timestamps = false;
-    protected $fillable = [
-        'login',
-        'password',
-        'staffID',
-        'roleID'
-    ];
+   public $timestamps = false;
+   protected $fillable = [
+       'name',
+       'login',
+       'password',
+       'role_id'
+   ];
 
-    protected $primaryKey = 'userID';
+   protected static function booted()
+   {
+       static::created(function ($user) {
+           $user->password = md5($user->password);
+           $user->save();
+       });
+   }
 
-    protected static function booted()
+   //Выборка пользователя по первичному ключу
+   public function findIdentity(int $id)
+   {
+       return self::where('id', $id)->first();
+   }
+
+   //Возврат первичного ключа
+   public function getId(): int
+   {
+       return $this->id;
+   }
+
+   //Возврат аутентифицированного пользователя
+   public function attemptIdentity(array $credentials)
+   {
+       return self::where(['login' => $credentials['login'],
+           'password' => md5($credentials['password'])])->first();
+   }
+    public function isAdmin(): bool
     {
-        static::created(function ($user) {
-            $user->password = md5($user->password);
-            $user->save();
-        });
-    }
-    //Выборка пользователя по первичному ключу
-    public function findIdentity(int $id)
-    {
-        return self::where('userID', $id)->first();
-    }
-
-    //Возврат первичного ключа
-    public function getId(): int
-    {
-        return $this->userID;
-    }
-
-    //Возврат аутентифицированного пользователя
-    public function attemptIdentity(array $credentials)
-    {
-        return self::where(['login' => $credentials['login'],
-            'password' => md5($credentials['password'])])->first();
-    }
-
-    public function role(): BelongsTo {
-        return $this->belongsTo(Role::class, 'roleID');
+        if ($this->role_id == 2) {
+            return true;
+        }
+        return false;
     }
 }
+

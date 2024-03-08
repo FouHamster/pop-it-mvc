@@ -23,8 +23,8 @@ $app = new Src\Application(new Src\Settings(getConfigs()));
 
 //Функция возвращает глобальный экземпляр приложения
 function app() {
-    global $app;
-    return $app;
+   global $app;
+   return $app;
 }
 
 return $app;

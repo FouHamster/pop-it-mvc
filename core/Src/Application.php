@@ -58,5 +58,4 @@ class Application
         //Запуск маршрутизации
         $this->route->start();
     }
-
 }
