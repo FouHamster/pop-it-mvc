@@ -45,6 +45,10 @@ class Site
         return new View('site.listEmployee');
     }
 
+    public function attach(): string {
+        return new View('site.attach');
+    }
+
     public function signup(Request $request): string
     {
         if ($request->method === 'POST' && User::create($request->all())) {

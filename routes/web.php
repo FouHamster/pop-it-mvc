@@ -14,3 +14,5 @@ Route::add('GET', '/staff', [Controller\Site::class, 'staff'])
     ->middleware('auth');
 Route::add('GET', '/list', [Controller\Site::class, 'employee'])
     ->middleware('auth');
+Route::add('GET', '/attach', [Controller\Site::class, 'attach'])
+    ->middleware('auth');
