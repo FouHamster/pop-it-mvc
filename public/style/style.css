@@ -10,9 +10,9 @@
 }
 /*Login.php*/
 .navigation{
-    background-color: black;
+    background-color: #8b6d5c;
     width: 1920px;
-    height: 100px;
+    height: 70px;
 }
 .navigation>a{
     color: white;

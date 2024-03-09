@@ -21,7 +21,7 @@ class Site
         return (new View())->render('site.department', ['departments' => $departments]);
     }
 
-    public function hello(): string
+    public function home(): string
     {
         return new View('site.hello');
     }
