@@ -116,17 +116,7 @@ class Site
                 return new View('site.add_employee',
                     ['departments' => $departments, 'posts' => $posts, 'structures' => $structures, 'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
             }
-            $uploadDirectory = 'images/';
-            if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-                $avatar = $_FILES['avatar'];
-                $filename = $uploadDirectory . basename($avatar['name']);
-                if (move_uploaded_file($avatar['tmp_name'], $filename)) {
-                    $request->set('avatar', $filename);
-                    echo "Файл успешно загружен.";
-                } else {
-                    echo "Ошибка при сохранении файла.";
-                }
-            }
+            $request = $request->foto();
             if (Employee::create($request->all())) {
                 app()->route->redirect('/hello');
             }

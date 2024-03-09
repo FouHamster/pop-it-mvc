@@ -3,6 +3,7 @@
 namespace Src;
 
 use Error;
+use mysql_xdevapi\Exception;
 
 class Request
 {
@@ -43,5 +44,20 @@ class Request
             return $this->body[$key];
         }
         throw new Error('Accessing a non-existent property');
+    }
+
+    public function foto(): self
+    {
+        $uploadDirectory = 'images/';
+        if (isset($this->files()['avatar']) && $this->files()['avatar']['error'] === UPLOAD_ERR_OK) {
+            $avatar = $this->files()['avatar'];
+            $filename = $uploadDirectory . basename($avatar['name']);
+            if (move_uploaded_file($avatar['tmp_name'], $filename)) {
+                $this->set('avatar', $filename);
+                return $this;
+            } else {
+                throw new Error("Ошибка загрузки файла", 500);
+            }
+        }
     }
 }
